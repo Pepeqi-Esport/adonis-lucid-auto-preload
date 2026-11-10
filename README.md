@@ -293,4 +293,4 @@ await Product.withoutAny().query().paginate(1)
 
 ## License
 
-This project is [MIT](https://github.com/codenameryuu/adonis-lucid-auto-preload/blob/master/LICENSE.md) licensed.
+This project is [MIT](https://github.com/Pepeqi-Esport-Reborn/adonis-lucid-auto-preload/blob/master/LICENSE.md) licensed.
