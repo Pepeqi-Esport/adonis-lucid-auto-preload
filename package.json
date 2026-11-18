@@ -4,10 +4,10 @@
     "description": "Auto-preload (eager loading) multiple relationships when retrieving Lucid models on Adonis JS",
     "author": "codenameryuu <leaderballon@gmail.com>",
     "license": "MIT",
-    "homepage": "https://github.com/codenameryuu/adonis-lucid-auto-preload#readme",
+    "homepage": "https://github.com/Pepeqi-Esport/adonis-lucid-auto-preload#readme",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/codenameryuu/adonis-lucid-auto-preload.git"
+        "url": "git+https://github.com/Pepeqi-Espinosa/adonis-lucid-auto-preload.git"
     },
     "engines": {
         "node": ">=24.0.0"

@@ -4,24 +4,24 @@ Auto-preload (eager loading) multiple relationships when retrieving Lucid models
 
 ## Requirement
 
-* Adonis Js 7
-* Lucid 22 or higher
+- Adonis Js 7
+- Lucid 22 or higher
 
 ## Installation
 
-* Install the package
+- Install the package
 
 ```bash
 yarn add @codenameryuu/adonis-lucid-auto-preload
 ```
 
-* Configure the package
+- Configure the package
 
 ```bash
 node ace configure @codenameryuu/adonis-lucid-auto-preload
 ```
 
-* Make sure to register the provider inside `adonisrc.ts` file.
+- Make sure to register the provider inside `adonisrc.ts` file.
 
 ```typescript
 providers: [
@@ -47,32 +47,32 @@ Relationships will be auto-preloaded for `find` , `all` and `paginate` queries.
 ```typescript
 // App/Models/Product.ts
 
-import { compose } from "@adonisjs/core/helpers";
-import { belongsTo, computed } from "@adonisjs/lucid/orm";
-import type { BelongsTo } from "@adonisjs/lucid/types/relations";
-import { AutoPreload } from "@codenameryuu/adonis-lucid-auto-preload";
-import { Filterable } from "@codenameryuu/adonis-lucid-filter";
-import { SoftDeletes } from "@codenameryuu/adonis-lucid-soft-deletes";
-import { DateTime } from "luxon";
+import { compose } from '@adonisjs/core/helpers'
+import { belongsTo, computed } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { AutoPreload } from '@codenameryuu/adonis-lucid-auto-preload'
+import { Filterable } from '@codenameryuu/adonis-lucid-filter'
+import { SoftDeletes } from '@codenameryuu/adonis-lucid-soft-deletes'
+import { DateTime } from 'luxon'
 
-import { ProductSchema } from "#database/schema";
+import { ProductSchema } from '#database/schema'
 
-import ProductFilter from "#filters/product_filter";
+import ProductFilter from '#filters/product_filter'
 
-import ProductCategory from "#models/product_category";
+import ProductCategory from '#models/product_category'
 
 export default class Product extends compose(ProductSchema, Filterable, SoftDeletes, AutoPreload) {
-  public static table = "products";
+  public static table = 'products'
 
-  public static $filter = () => ProductFilter;
-  public static $with = ["productCategory"] as const;
+  public static $filter = () => ProductFilter
+  public static $with = ['productCategory'] as const
 
   @belongsTo(() => ProductCategory, {
-    localKey: "id",
-    foreignKey: "productCategoryId",
-    serializeAs: "product_category",
+    localKey: 'id',
+    foreignKey: 'productCategoryId',
+    serializeAs: 'product_category',
   })
-  declare productCategory: BelongsTo<typeof ProductCategory>;
+  declare productCategory: BelongsTo<typeof ProductCategory>
 }
 ```
 
@@ -95,37 +95,37 @@ You can also use functions to auto-preload relationships. The function will rece
 ```typescript
 // App/Models/Product.ts
 
-import { compose } from "@adonisjs/core/helpers";
-import { belongsTo, computed } from "@adonisjs/lucid/orm";
-import type { BelongsTo } from "@adonisjs/lucid/types/relations";
-import { AutoPreload } from "@codenameryuu/adonis-lucid-auto-preload";
-import { Filterable } from "@codenameryuu/adonis-lucid-filter";
-import { SoftDeletes } from "@codenameryuu/adonis-lucid-soft-deletes";
-import { DateTime } from "luxon";
+import { compose } from '@adonisjs/core/helpers'
+import { belongsTo, computed } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { AutoPreload } from '@codenameryuu/adonis-lucid-auto-preload'
+import { Filterable } from '@codenameryuu/adonis-lucid-filter'
+import { SoftDeletes } from '@codenameryuu/adonis-lucid-soft-deletes'
+import { DateTime } from 'luxon'
 
-import { ProductSchema } from "#database/schema";
+import { ProductSchema } from '#database/schema'
 
-import ProductFilter from "#filters/product_filter";
+import ProductFilter from '#filters/product_filter'
 
-import ProductCategory from "#models/product_category";
+import ProductCategory from '#models/product_category'
 
 export default class Product extends compose(ProductSchema, Filterable, SoftDeletes, AutoPreload) {
-  public static table = "products";
+  public static table = 'products'
 
-  public static $filter = () => ProductFilter;
+  public static $filter = () => ProductFilter
 
   public static $with = [
     (query: ModelQueryBuilderContract<typeof this>) => {
       query.preload('productCategory')
-    }
+    },
   ]
 
   @belongsTo(() => ProductCategory, {
-    localKey: "id",
-    foreignKey: "productCategoryId",
-    serializeAs: "product_category",
+    localKey: 'id',
+    foreignKey: 'productCategoryId',
+    serializeAs: 'product_category',
   })
-  declare productCategory: BelongsTo<typeof ProductCategory>;
+  declare productCategory: BelongsTo<typeof ProductCategory>
 }
 ```
 
@@ -148,64 +148,69 @@ You can auto-preload nested relationships using the dot "." between the parent m
 ```typescript
 // App/Models/ProductCategory.ts
 
-import { compose } from "@adonisjs/core/helpers";
-import { belongsTo, computed } from "@adonisjs/lucid/orm";
-import type { BelongsTo } from "@adonisjs/lucid/types/relations";
-import { AutoPreload } from "@codenameryuu/adonis-lucid-auto-preload";
-import { Filterable } from "@codenameryuu/adonis-lucid-filter";
-import { SoftDeletes } from "@codenameryuu/adonis-lucid-soft-deletes";
-import { DateTime } from "luxon";
+import { compose } from '@adonisjs/core/helpers'
+import { belongsTo, computed } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { AutoPreload } from '@codenameryuu/adonis-lucid-auto-preload'
+import { Filterable } from '@codenameryuu/adonis-lucid-filter'
+import { SoftDeletes } from '@codenameryuu/adonis-lucid-soft-deletes'
+import { DateTime } from 'luxon'
 
-import { ProductCategorySchema } from "#database/schema";
+import { ProductCategorySchema } from '#database/schema'
 
-import ProductCategoryFilter from "#filters/product_category_filter";
+import ProductCategoryFilter from '#filters/product_category_filter'
 
 import User from '#models/user'
 
-export default class ProductCategory extends compose(ProductCategorySchema, Filterable, SoftDeletes, AutoPreload) {
-  public static table = "product_categories";
+export default class ProductCategory extends compose(
+  ProductCategorySchema,
+  Filterable,
+  SoftDeletes,
+  AutoPreload
+) {
+  public static table = 'product_categories'
 
-  public static $filter = () => ProductCategoryFilter;
-  public static $with = ["user"] as const;
+  public static $filter = () => ProductCategoryFilter
+  public static $with = ['user'] as const
 
   @belongsTo(() => User, {
-    localKey: "id",
-    foreignKey: "userId",
-    serializeAs: "user",
+    localKey: 'id',
+    foreignKey: 'userId',
+    serializeAs: 'user',
   })
-  declare user: BelongsTo<typeof User>;
+  declare user: BelongsTo<typeof User>
 }
 ```
 
 ```typescript
 // App/Models/Product.ts
 
-import { compose } from "@adonisjs/core/helpers";
-import { belongsTo, computed } from "@adonisjs/lucid/orm";
-import type { BelongsTo } from "@adonisjs/lucid/types/relations";
-import { AutoPreload } from "@codenameryuu/adonis-lucid-auto-preload";
-import { Filterable } from "@codenameryuu/adonis-lucid-filter";
-import { SoftDeletes } from "@codenameryuu/adonis-lucid-soft-deletes";
-import { DateTime } from "luxon";
+import { compose } from '@adonisjs/core/helpers'
+import { belongsTo, computed } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { AutoPreload } from '@codenameryuu/adonis-lucid-auto-preload'
+import { Filterable } from '@codenameryuu/adonis-lucid-filter'
+import { SoftDeletes } from '@codenameryuu/adonis-lucid-soft-deletes'
+import { DateTime } from 'luxon'
 
-import { ProductSchema } from "#database/schema";
+import { ProductSchema } from '#database/schema'
 
-import ProductFilter from "#filters/product_filter";
+import ProductFilter from '#filters/product_filter'
 
-import ProductCategory from "#models/product_category";
+import ProductCategory from '#models/product_category'
 
 export default class Product extends compose(ProductSchema, Filterable, SoftDeletes, AutoPreload) {
-  public static table = "products";
+  public static table = 'products'
 
-  public static $filter = () => ProductFilter;
-  public static $with = ["productCategory"] as const;
+  public static $filter = () => ProductFilter
+  public static $with = ['productCategory'] as const
 
   @belongsTo(() => ProductCategory, {
-    localKey: "id",
-    foreignKey: "productCategoryId",
-    serializeAs: "product_category",
+    localKey: 'id',
+    foreignKey: 'productCategoryId',
+    serializeAs: 'product_category',
   })
-  declare productCategory: BelongsTo<typeof ProductCategory>;
+  declare productCategory: BelongsTo<typeof ProductCategory>
 }
 ```
 
@@ -282,11 +287,8 @@ export default class ProductsController {
 > **Note**
 >
 > These methods already return a query builder (with `find` / `findOrFail` / `query` helpers). You can chain Lucid methods directly, or keep the Model-like `.query()` style:
->
->  
 
 ```typescript
-
 await Product.withoutAny().where('active', true).paginate(1)
 await Product.withoutAny().query().paginate(1)
 ```
